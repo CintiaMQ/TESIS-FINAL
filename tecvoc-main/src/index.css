@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.navlink-active {
+	@apply bg-white rounded-s-full text-[#6A2C70];
+}
+
+.navlink-active::before {
+	content: "";
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	right: 0;
+	top: -40px;
+	border-radius: 50%;
+	box-shadow: 20px 20px #fff;
+	pointer-events: none;
+}
+
+.navlink-active::after {
+	content: "";
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	right: 0;
+	bottom: -40px;
+	border-radius: 50%;
+	box-shadow: 20px -20px #fff;
+	pointer-events: none;
+}
