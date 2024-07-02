@@ -131,7 +131,7 @@ const TestDashboard = () => {
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white p-4 rounded-lg shadow-lg text-center">
                         <img src={gifs[currentGifIndex]} alt="GIF" className="w-32 h-32 mx-auto mb-4" />
-                        <p className="text-lg font-semibold">¡Buen trabajo!</p>
+                        <p className="text-lg font-semibold">¡Buen trabajo soladodo ya estas por llegar a la meta!</p>
                     </div>
                 </div>
             )}
@@ -140,7 +140,7 @@ const TestDashboard = () => {
                     {isPlaying ? <FaVolumeMute className="text-green-500 w-8 h-8" /> : <FaMusic className="text-green-500 w-8 h-8" />}
                 </button>
                 <audio ref={audioRef} className="hidden">
-                    <source src="/audio/Música_para_Podcast_PODSAFE.m4a" type="audio/mpeg" />
+                    <source src="/audio/audio.mp3" type="audio/mpeg" />
                     Your browser does not support the audio element.
                 </audio>
             </div>
