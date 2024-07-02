@@ -8,6 +8,7 @@ import pollito3 from '../../../../public/pollito3.gif';
 
 interface Pregunta {
     _id: string;
+    id: number;
     texto: string;
     opciones: { texto: string; valor: number }[];
 }
@@ -60,8 +61,8 @@ const TestDashboard = () => {
     const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
         const valor = parseInt(event.target.value, 10);
         setRespuestas(current => [
-            ...current.filter(resp => resp.preguntaId !== preguntas[indexActual]._id),
-            { preguntaId: preguntas[indexActual]._id, valor }
+            ...current.filter(resp => resp.preguntaId !== preguntas[indexActual].id.toString()),
+            { preguntaId: preguntas[indexActual].id.toString(), valor }
         ]);
     };
 

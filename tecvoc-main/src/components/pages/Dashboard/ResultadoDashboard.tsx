@@ -40,11 +40,11 @@ const ResultadoDashboard: React.FC = () => {
         const doc = new jsPDF();
         doc.text("Resultados del Test Vocacional", 20, 20);
         resultados.forEach((resultado, index) => {
-            doc.text(`Resultado ${index + 1}`, 20, 30 + index * 50);
-            doc.text(`Fecha: ${new Date(resultado.fecha).toLocaleString()}`, 20, 40 + index * 50);
-            doc.text("Carreras sugeridas:", 20, 50 + index * 50);
+            doc.text(`Resultado ${index + 1}`, 20, 30 + index * 10);
+            doc.text(`Fecha: ${new Date(resultado.fecha).toLocaleString()}`, 20, 40 + index * 10);
+            doc.text("Carreras sugeridas:", 20, 50 + index * 10);
             resultado.resultado.forEach((carrera, i) => {
-                doc.text(`${i + 1}. ${carrera}`, 30, 60 + index * 50 + i * 10);
+                doc.text(`${i + 1}. ${carrera}`, 30, 60 + index * 10 + i * 5);
             });
         });
         doc.save("resultados_test_vocacional.pdf");
@@ -55,8 +55,6 @@ const ResultadoDashboard: React.FC = () => {
     }
 
     const carrerasSugeridas = resultados.flatMap(resultado => resultado.resultado) || [];
-
-    console.log('Carreras Sugeridas:', carrerasSugeridas); // Para depuración
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">

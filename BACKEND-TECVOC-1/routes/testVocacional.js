@@ -3,21 +3,38 @@ const router = express.Router();
 const Pregunta = require('../models/Pregunta');
 const Resultado = require('../models/Resultado');
 
+// Definición de intereses y carreras
+const intereses = {
+    "1": "Tecnología y Diseño de Software",
+    "2": "Manejo de datos, Tecnología y Manejo de información",
+    "3": "Desarrollo industrial, Gestión industrial",
+    "4": "Mantenimiento industrial y Sistema electrónico",
+    "5": "Interés en el diseño, Creatividad de diseño",
+    "6": "Interés en aplicaciones y plataformas",
+    "7": "Interés en videojuegos y realidad virtual",
+    "8": "Interés en las aeronaves, Mecánica",
+    "9": "Interés en la Minería, Procesamiento de recursos mineros",
+    "10": "Interés en redes y dispositivos de comunicación",
+    "11": "Interés en los procesos químicos, En las plantas industriales",
+    "12": "Interés en la mecánica o En maquinaria pesada",
+    "13": "Interés en implementación de nuevas tecnologías"
+};
+
 const carreras = [
-    "Administración de Redes y Comunicaciones",
-    "Big Data y Ciencia de Datos",
-    "Aviónica y Mecánica Aeronáutica",
-    "Diseño y desarrollo de software",
-    "Diseño y Desarrollo de Simuladores y Videojuegos",
-    "Gestión y Mantenimiento de Maquinaria Industrial",
-    "Gestión y Mantenimiento de Maquinaria Pesada",
-    "Operaciones Mineras",
-    "Procesos Químicos y Metalúrgicos",
-    "Diseño Industrial",
-    "Producción y Gestión Industrial",
-    "Electrónica y Automatización Industrial",
-    "Electricidad Industrial con mención en Sistemas Eléctricos de Potencia",
-    "Mecatrónica Industrial"
+    { nombre: "Big Data y Ciencia de Datos", intereses: [2, 3, 13] },
+    { nombre: "Diseño y Desarrollo de Software", intereses: [1, 5, 6, 13] },
+    { nombre: "Diseño y Desarrollo de Simuladores y Videojuegos", intereses: [5, 6, 7] },
+    { nombre: "Administración de Redes y Comunicaciones", intereses: [6, 10] },
+    { nombre: "Producción y Gestión Industrial", intereses: [3, 4] },
+    { nombre: "Diseño Industrial", intereses: [5, 13] },
+    { nombre: "Electrónica y Automatización Industrial", intereses: [4, 6, 13] },
+    { nombre: "Electricidad Industrial con mención en Sistemas Eléctricos de Potencia", intereses: [4, 10, 13] },
+    { nombre: "Mecatrónica Industrial", intereses: [3, 4, 5, 13] },
+    { nombre: "Aviónica y Mecánica Aeronáutica", intereses: [7, 8, 12] },
+    { nombre: "Gestión y Mantenimiento de Maquinaria Industrial", intereses: [3, 4, 12, 13] },
+    { nombre: "Gestión y Mantenimiento de Maquinaria Pesada", intereses: [3, 4, 9, 12] },
+    { nombre: "Operaciones Mineras", intereses: [9, 11] },
+    { nombre: "Procesos Químicos y Metalúrgicos", intereses: [9, 11] }
 ];
 
 // Obtener todas las preguntas
@@ -47,18 +64,20 @@ router.post('/resultados', async (req, res) => {
     try {
         const puntuaciones = {};
         carreras.forEach(carrera => {
-            puntuaciones[carrera] = 0;
+            puntuaciones[carrera.nombre] = 0;
         });
 
         // Calcular puntuaciones
-        respuestas.forEach((respuesta) => {
-            // Asumimos que cada respuesta tiene un impacto en todas las carreras
-            carreras.forEach(carrera => {
-                // Aquí deberías implementar una lógica más compleja basada en tus requisitos específicos
-                // Por ahora, simplemente sumamos el valor de cada respuesta a todas las carreras
-                puntuaciones[carrera] += respuesta.valor;
-            });
-        });
+        for (const respuesta of respuestas) {
+            const pregunta = await Pregunta.findOne({ id: Number(respuesta.preguntaId) });
+            if (pregunta) {
+                carreras.forEach(carrera => {
+                    if (carrera.intereses.includes(pregunta.interes)) {
+                        puntuaciones[carrera.nombre] += respuesta.valor;
+                    }
+                });
+            }
+        }
 
         // Ordenar carreras por puntuación
         const carrerasOrdenadas = Object.keys(puntuaciones).sort((a, b) => puntuaciones[b] - puntuaciones[a]);

@@ -1,15 +1,17 @@
-// models/Pregunta.js
 const mongoose = require('mongoose');
 
-const opcionSchema = new mongoose.Schema({
+const OpcionSchema = new mongoose.Schema({
     texto: String,
-    valor: Number
+    valor: Number,
 });
 
-const preguntaSchema = new mongoose.Schema({
+const PreguntaSchema = new mongoose.Schema({
+    id: Number,
     texto: String,
-    opciones: [opcionSchema]
+    interes: Number,
+    opciones: [OpcionSchema],
 });
 
-const Pregunta = mongoose.model('Pregunta', preguntaSchema);
+const Pregunta = mongoose.model('Pregunta', PreguntaSchema);
+
 module.exports = Pregunta;
