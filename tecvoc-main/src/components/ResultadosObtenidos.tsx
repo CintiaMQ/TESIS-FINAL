@@ -8,14 +8,14 @@ interface Resultado {
     fecha: string;
 }
 
-const ResultadosObtenidos = () => {
+const ResultadosObtenidos: React.FC = () => {
     const [resultados, setResultados] = useState<Resultado[]>([]);
     const { user } = useUser(); // Obtener el usuario del contexto
 
     useEffect(() => {
         const fetchResultados = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/resultados/${user?.email}`);
+                const response = await fetch(`http://localhost:3000/api/test/resultados/${user?.email}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -31,21 +31,23 @@ const ResultadosObtenidos = () => {
     }, [user]);
 
     return (
-        <div>
-            <h2>Resultados Obtenidos</h2>
+        <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+            <h2 className="text-2xl font-bold mb-4">Resultados Obtenidos</h2>
             {resultados.length > 0 ? (
                 resultados.map((resultado, index) => (
-                    <div key={index}>
-                        <h3>Resultado del {new Date(resultado.fecha).toLocaleDateString()}</h3>
-                        <ul>
+                    <div key={index} className="mb-6">
+                        <h3 className="text-xl font-semibold">Resultado del {new Date(resultado.fecha).toLocaleDateString()}</h3>
+                        <ul className="list-disc list-inside mt-2">
                             {resultado.resultado.map((carrera, i) => (
-                                <li key={i}>{carrera}: {resultado.puntuaciones[carrera]}</li>
+                                <li key={i} className="text-lg">
+                                    {carrera}: {resultado.puntuaciones[carrera]}
+                                </li>
                             ))}
                         </ul>
                     </div>
                 ))
             ) : (
-                <p>No se han encontrado resultados previos.</p>
+                <p className="text-gray-600">No se han encontrado resultados previos.</p>
             )}
         </div>
     );
